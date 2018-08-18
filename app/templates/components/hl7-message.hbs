@@ -1,0 +1,200 @@
+<div class="helpWrapper">
+    <span id="helpButton" class="helpButton">i</span>
+</div>
+<div class="flexContainer">
+    <div class="message">
+        <div class="tooltip" id="tooltipWrapper">
+            <div id="hl7Message" class="hl7Message">
+                <span class="widetooltiptext" id="messageTooltip">HL7 Messages or Errors will display here</span>
+                <h2>Change Log</h2>
+                <ul>
+                    <li>8/17/2018</li>
+                    <ul>
+                        <li>Replaced confirm dialog on stopping search with a css based dialog</li>
+                        <li>Added a few more tooltips</li>
+                    </ul>
+                    <li>8/16/2018</li>
+                    <ul>
+                        <li>Made modals draggable</li>
+                    </ul>
+                    <li>8/14/2018</li>
+                    <ul>
+                        <li>Tweaked padding of detail section to line up the bottom with the message view</li>
+                        <li>Replaced message tooltip with documentation</li>
+                    </ul>
+                    <li>8/12/2018</li>
+                    <ul>
+                        <li>Replaced initial documentation with a change log</li>
+                        <li>Added tooltips. The main tooltip for the message view will fade out and then get out of the way
+                        </li>
+                        <li>Updated text of load button to be less verbose</li>
+                        <li>Changed font of the word wrap label to match inputs</li>
+                        <li>Fixed a bug with escaping HTML characters when running Replace All</li>
+                    </ul>
+                    <li>Planned Changes</li>
+                    <ul>
+                        <li>Add more tooltips</li>
+                        <li>Make search function work for text or ids</li>
+                        <li>Add more details to the deatils section</li>
+                        <li>Continue documenting the functionality</li>
+                    </ul>
+                </ul>
+            </div>
+        </div>
+        <footer class="hl7Footer" id="hl7Footer"></footer>
+        <div class="buttons">
+            <button class="tooltip" type=button {{action 'loadMessage'}}>Load
+                <span class="tooltiptext">Load an HL7 message from disk</span>
+            </button>
+            <button class="tooltip" type=button {{action 'downloadMessage'}}>Download
+                <span class="tooltiptext">Download the dislayed HL7 message to disk</span>
+            </button>
+            <label class="tooltip">Word Wrap:
+                <span class="tooltiptext">Toggle Word Wrap in the message</span>
+                <input disabled class="checkBox" id="wordWrap" type="checkbox" checked={{wordWrap}} onclick={{action "toggleWrap" value="target.checked"
+                    }}/>
+            </label>
+        </div>
+    </div>
+    <div class="details">
+        <div class="tooltip">
+            <span class="widetooltiptext">Message details and search results will appear here</span>
+            <div class="hl7Details" id="hl7Details">
+                <div id="fromMessage"></div>
+                <div id="results"></div>
+            </div>
+        </div>
+        <div class="detailsFooter" id="detailsFooter">
+            <input id="hl7Search" class="hl7Search" />
+            <button type=button {{action 'findElements'}}>Find</button>
+        </div>
+    </div>
+</div>
+<div class="replaceModal" id="replaceModal">
+    <div class="modalHeader" id="replaceHeader">
+        <h3>Replace</h3>
+    </div>
+    <div class="modalBody">Body Placeholder</div>
+    <div class="modalFooter">
+        <button type="button" class="tooltip" {{action 'replaceOne'}} id="replace">Replace
+            <span class="tooltiptext">Replace and move on to the next match</span>
+        </button>
+        <button type="button" class="tooltip" {{action 'replaceAll'}} id="replaceAll">Replace All
+            <span class="tooltiptext">Replace all matches</span>
+        </button>
+        <button type="button" class="tooltip" {{action 'skipOne'}} id="skip">Skip
+            <span class="tooltiptext">Don't replace and move on to the next match</span>
+        </button>
+        <button type="button" class="tooltip" {{action 'stopSearch'}} id="stop">Stop
+            <span class="tooltiptext">Stop</span>
+        </button>
+    </div>
+</div>
+<div class="cancelModal" id="cancelModal">
+    <div class="modalHeader" id="cancelHeader">
+        <h3>Stop Replace?</h3>
+    </div>
+    <div class="modalBody">
+        Do you want to keep the changes you&apos;ve made so far?
+    </div>
+    <div class="modalFooter">
+        <button type="button" class="tooltip" {{action 'cancelSearch'}} id="cancel">Cancel
+            <span class="tooltiptext">Cancel search and restore message</span>
+        </button>
+        <button type="button" class="tooltip" {{action 'keepReplacements'}} id="keep">Keep
+            <span class="tooltiptext">Close and keep changes</span>
+        </button>
+        <button type="button" class="tooltip" {{action 'continueReplacing'}} id="continue">Continue
+            <span class="tooltiptext">Close dialog and continue searching</span>
+        </button>
+    </div>
+</div>
+<div id="documentationModal" class="documentationModal flexModal">
+    <div class="modalHeader" id="documentationHeader">
+        <h3>Great Hall HL7 Documentation</h3>
+        <button id="closeButton" type="button" class="closeButton">X</button>
+    </div>
+    <div class="modalBody">
+        <p>
+            This app was designed to help visualize and edit an HL7 message. To get started click the &apos;Load&apos; button below to
+            choose a message file from disk. The app will analyze the message and display it in the Message Display section.
+        </p>
+        <p>
+            The Detail Display section will show information that you might find useful about your message. Enter in a value to search
+            the message in the find section below.
+        </p>
+        <p>
+            <strong>Message Display</strong>: Once a message is loaded it will be displayed here in a color coded format. You can
+            hover over any element to get a little detail about it, or click any element to edit it.
+        </p>
+        <p>
+            If you edit an encoding character in MSH-1 or MSH-2 that change will automatically propogate through the message
+        </p>
+        <p>
+            If the field you edit matches any other text in the message you will be prompted to replace the text elsewhere.
+        </p>
+    </div>
+</div>
+
+<script> 
+
+    let lastX, lastY;
+
+    document.getElementById('helpButton').onclick = function (e) {
+        document.getElementById('documentationModal').style.display = 'flex';
+    }
+
+    document.getElementById('closeButton').onclick = function (e) {
+        document.getElementById('documentationModal').style.display = 'none';
+    }
+
+    let dragReplace = new draggableObject(document.getElementById('replaceHeader'));
+    dragReplace.makeDraggable();
+    let dragDoc = new draggableObject(document.getElementById('documentationHeader'));
+    dragDoc.makeDraggable();
+    let dragCancel = new draggableObject(document.getElementById('cancelHeader'));
+    dragCancel.makeDraggable();
+</script>
+
+<!--
+    /*let node = document.getElementById('hl7Message');
+    let timeout;
+    let opinterval;
+
+    node.onmousemove = function (e) {
+        let tooltip = document.getElementById('messageTooltip');
+        if (tooltip.parentNode.id === 'tooltipWrapper') {
+            if (tooltip) {
+                tooltip.style.top = `${e.clientY + 20}px`;
+                tooltip.style.left = `${e.clientX + 20}px`;
+            }
+        }
+    }
+    node.onmouseenter = function (e) {        
+        let tooltip = document.getElementById('messageTooltip');
+        if (tooltip.parentElement.id !== 'tooltipWrapper') {
+            tooltip.style.opacity = 1;
+            document.getElementById('tooltipWrapper').appendChild(tooltip);
+            opinterval = setInterval(() => {
+                if (tooltip.style.opacity > 0.25) {
+                    tooltip.style.opacity -= 0.1;
+                }
+            }, 750);
+
+            timeout = setTimeout(removeTooltip, 20000);
+        }
+    }
+
+    node.onmouseleave = function (e) {
+        clearTimeout(timeout);
+        removeTooltip();
+    }
+
+    function removeTooltip() {
+        let tooltip = document.getElementById('messageTooltip');
+        if (tooltip.parentElement.id === 'tooltipWrapper') {
+            document.getElementById('holding').appendChild(tooltip);
+        }
+        clearInterval(opinterval);
+    }/*
+    -->

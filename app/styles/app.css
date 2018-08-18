@@ -1,0 +1,316 @@
+@keyframes fadeIn { 
+    from { opacity: 0; } 
+  }
+
+  h1 {
+      margin-left: 5%;
+  }
+
+  h3 {
+      margin: 0;
+  }
+  body {
+      background: lightyellow;
+      font-family: 'Fira Mono', monospace;
+      font-size: 16px;
+  }
+
+  input, .input {
+      background-color: gainsboro;
+      color: black;
+      border: 1px solid darkgray;
+  }
+
+  /*
+    Just making the label look like the various input elements
+  */
+  input, textarea, select, button, label {    
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    font-style: normal;
+    font-variant-ligatures: normal;
+    font-variant-caps: normal;
+    font-variant-numeric: normal;
+    font-variant-east-asian: normal;
+    font-weight: 400;
+    font-stretch: normal;
+    font-size: 13.3333px;
+    line-height: normal;
+    font-family: Arial;
+  }
+
+  .loading {
+      animation: fadeIn 1s infinite alternate;
+  }
+
+.flexContainer {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+}
+
+.flexModal {
+    display: flex;
+    flex-flow: column;
+    height: 600px;
+}
+
+.hl7Message {    
+    color: white;
+    background-color: black;
+    padding: 10px;
+    overflow: scroll;
+    height: 600px;
+}
+
+.buttons {    
+    margin-top: 5px;
+}
+
+.detailButton {
+    margin-top: 5px;
+}
+
+.hl7Footer {     
+    padding: 10px;
+    font-size: small;
+    border: 1px solid gray;
+    background-color: black;
+    color: lightsteelblue;
+    height: 1em;
+}
+
+.message {
+    width: 60%;
+    min-width: 900px;
+    margin-left: 5%;   
+}
+
+.details {
+    min-width: 300px;
+    margin-left: 10px;
+}
+.hl7Details {    
+    background-color: white;
+    border: 1px solid darkslategray;
+    padding: 10px;
+    overflow: scroll;
+    height: 600px; 
+}
+
+.detailsFooter {
+    background-color: white;
+    border: 1px solid darkslategray;
+    font-size: small;
+    padding: 5px 10px;    
+    min-height: 1em;
+}
+
+.hl7Search {
+    background-color: white;
+    min-width: 215px;
+}
+
+.error {
+    color: red;
+    font-size: larger;
+    margin-left: 10px;
+    background-color: black;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.segmentId {
+    color: lightskyblue;
+}
+
+.fieldSep {
+    color: blue;
+}
+
+.componentSep {
+    color: green;
+}
+
+.repetitionSep {
+    color: red;
+}
+
+.subComponentSep {
+    color: rosybrown;
+}
+
+.escapeChar, .escapeSequence {
+    color: gray;
+}
+
+.truncationChar {
+    color: lightsalmon;
+}
+
+.found {
+    background-color: lightgoldenrodyellow;
+    color: darkslategrey;
+}
+
+.detailList {    
+    list-style: none;
+}
+
+span.input::selection {
+    background-color: lightblue;
+}
+
+.checkBox {
+    vertical-align: middle;
+    margin: 0;
+    height: 1.25em;
+    width: 1.25em;
+    border-radius: 0;
+}
+
+.replaceModal, .documentationModal, .cancelModal {
+    display: none;    
+    box-shadow: 1px 1px darkslategray;
+    background-color: lightcyan;
+    color: black;
+    position: absolute;    
+}
+
+.cancelModal {
+    z-index: 101;
+    top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 300px;
+    left: 0;
+    right: 0;
+}
+
+.replaceModal {
+    z-index: 101;
+}
+
+.replaceModal .modalHeader {
+    cursor: move;
+}
+
+.documentationModal {    
+    width:30%;
+    top: 50px;
+    right: 50px;    
+    z-index: 100;
+}
+
+.documentationModal .modalBody {
+    overflow: scroll;
+}
+
+.documentationModal .modalHeader h3 {
+    float: left;
+}
+
+.documentationModal .modalBody {
+    clear: both;
+}
+
+.closeButton {
+    float: right;
+    font-size: 12px;
+    vertical-align: middle;   
+    border: 1px solid darkblue;
+    border-radius: 3px; 
+}
+.modalHeader {
+    border: 1px solid gray;
+    padding: 0.25em;
+    border-right: 0;
+    background-color: lightsteelblue;    
+}
+
+.modalBody {
+    border-left: 1px solid gray;
+    padding: 0.5em;    
+    flex: 1;
+}
+
+.modalFooter {
+    border: 1px solid gray;
+    padding: 0.5em;
+    border-right: 0;
+    text-align: right;
+}
+
+.modalFooter > button {
+    margin-left: 5px;
+}
+
+.helpWrapper {
+    margin-left: 10px;
+}
+
+.helpButton {
+    margin-left: 5%;
+    background: transparent;
+    border-radius: 50px;
+    border: 1px solid black;
+    font-size: 9px;
+    padding: 1px 3px;
+    vertical-align: middle;
+    text-align: center;
+    font-weight: bold;    
+}
+
+.tooltip .tooltiptext,
+.tooltip .widetooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: lightcyan;
+    color: black;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;    
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 2s;
+}
+
+.tooltip .widetooltiptext {
+    width: 300px;
+    text-align: left;
+    padding: 5px;    
+}
+
+.tooltip:hover .tooltiptext, 
+.tooltip:hover .widetooltiptext{
+    visibility: visible;
+    opacity: 0.95;
+}
+
+.holding {
+    visibility: hidden;
+}
+
+@media (max-width: 1050px) {
+    h1 {
+        margin: 0;
+    }
+    .message {
+        width: 100%;
+        min-width: 300px;
+        margin: 0;
+    }
+    .details {        
+        width: 100%;
+        margin: 0;
+    }
+}
