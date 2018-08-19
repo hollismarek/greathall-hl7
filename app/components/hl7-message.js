@@ -115,7 +115,7 @@ export default Component.extend({
 
             if (newText !== originalText && originalText !== '') {
                 // tagging with garbage string so we can skip it when replacing later
-                e.target.innerHTML = '---added---517704' + e.target.innerText;
+                ele.innerHTML = '---added---517704' + e.target.innerText;
             }
 
             do {
@@ -150,7 +150,7 @@ export default Component.extend({
         if (_this.matchLocation === -1) {
             modalNode.style.display = 'none';
             this.loaded = false;
-            _this.showMessage(node.firstChild.innerHTML);
+            _this.showMessage(node.firstChild.innerText);
         } else if (_this.matchLocations.includes(_this.matchLocation)) {
             if (newString.indexOf(newVal, _this.matchLocation) === _this.matchLocation) {
                 _this.matchLocation += newVal.length;
@@ -377,42 +377,72 @@ export default Component.extend({
             this.hl7Element.innerHTML = `<div class="error">${this.getSpan('Not a valid hl7 message: missing MSH segment')}</div>`;
         }
     },
-    search: function (searchText, node, skipHighlight, reload) {
+    search: function (searchText, node, skipHighlight, reload, responses, foundNodes) {
         _this.loaded = false;
-        let responses = [];
+        if (!responses) {
+            responses = [];
+        }
         if (reload) {
             _this.showMessage(_this.getStringFromMessage(), true);
         }
         if (searchText) {
-            
-            let foundNodes = [];
+
+            if (!foundNodes) {
+                foundNodes = [];
+            }
             for (let i = 0; i < node.children.length; ++i) {
-                if (node.children[i].dataset.hl7 && node.children[i].dataset.hl7 === searchText) {
-                    responses.push(node.children[i].innerText);
-                    if (!skipHighlight) {
-                        node.children[i].classList.add('found');
-                    }
-                } else if (node.children[i].innerText === searchText) {
-                    responses.push(node.children[i].dataset.hl7);
-                    if (!skipHighlight) {
-                        node.children[i].classList.add('found');
-                    }
-                } else if (node.children[i].innerText.indexOf(searchText) > -1) {
-                    // set this aside rather than edit the array we're looping on
-                    foundNodes.push(node.children[i]);
-                    responses.push(node.children[i].dataset.hl7);
-                } else {
-                    if (node.children[i].classList.contains('found')) {
-                        node.children[i].classList.remove('found');
+                let child = node.children[i];
+                if (child.dataset.hl7) {
+                    if (child.dataset.hl7 === searchText) {
+                        responses.push(child.innerText);
+                        if (!skipHighlight) {
+                            child.classList.add('found');
+                        }
+                    } else if (child.innerText.toUpperCase() === searchText.toUpperCase()) {
+                        responses.push(child.dataset.hl7);
+                        if (!skipHighlight) {
+                            child.classList.add('found');
+                        }
+                    } else if (child.innerText.toUpperCase().indexOf(searchText.toUpperCase()) > -1) {
+                        // set this aside rather than edit the array we're looping on
+                        foundNodes.push(child);
+                        responses.push(child.dataset.hl7);
+                        if (responses.includes(child.parentNode.dataset.hl7)) {
+                            responses.splice(responses.indexOf(child.parentNode.dataset.hl7), 1);
+                            if (foundNodes.includes(child.parentNode)) {
+                                foundNodes.splice(child.parentNode, 1);
+                            }
+                        }
+                    } else {
+                        if (child.classList.contains('found')) {
+                            child.classList.remove('found');
+                        }
                     }
                 }
-                if (node.children.length > 0) {
-                    responses = responses.concat(this.search(searchText, node.children[i], skipHighlight));
+                if (child.children.length > 0) {
+                    this.search(searchText, child, skipHighlight, false, responses, foundNodes);
                 }
             }
+
             for (let i = 0; i < foundNodes.length; ++i) {
-                foundNodes[i].innerHTML = foundNodes[i].innerHTML.replace(new RegExp(searchText, 'gi'), `<span class="found foundText">${searchText}</span>`);
-                //let html = '';
+                //foundNodes[i].innerHTML = foundNodes[i].innerHTML.replace(new RegExp(searchText, 'gi'), `<span class="found foundText">${searchText}</span>`);
+                let html = foundNodes[i].innerHTML;
+                let output = '';
+                let index = -1;
+                let lastEnd = 0;
+                do {
+                    // html.substring(0, index) + '***' + html.substring(index, index + searchText.length) + '***'
+                    index = html.toUpperCase().indexOf(searchText.toUpperCase(), index);
+                    if (index > -1) {
+                        output += `${html.substring(lastEnd, index)}<span class="found foundText">${html.substring(index, index + searchText.length)}</span>`;
+                        lastEnd = index + searchText.length;
+                        index += 1;
+                    }
+                } while (index > -1);
+                if (lastEnd < html.length) {
+                    output += html.substring(lastEnd);
+                }
+                foundNodes[i].innerHTML = output;
             }
         }
         return responses;

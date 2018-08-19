@@ -8,6 +8,11 @@
                 <span class="widetooltiptext" id="messageTooltip">HL7 Messages or Errors will display here</span>
                 <h2>Change Log</h2>
                 <ul>
+                    <li>8/19/2018</li>
+                    <ul>
+                        <li>Updated tooltips</li>
+                        <li>Updated search to find text within the message in addition to HL7 element ids</li>
+                    </ul>
                     <li>8/17/2018</li>
                     <ul>
                         <li>Replaced confirm dialog on stopping search with a css based dialog</li>
@@ -33,8 +38,7 @@
                     </ul>
                     <li>Planned Changes</li>
                     <ul>
-                        <li>Add more tooltips</li>
-                        <li>Make search function work for text or ids</li>
+                        <li>Add more tooltips</li>                        
                         <li>Add more details to the deatils section</li>
                         <li>Continue documenting the functionality</li>
                     </ul>
@@ -63,9 +67,10 @@
                 <div id="results"></div>
             </div>
         </div>
-        <div class="detailsFooter" id="detailsFooter">
+        <div class="detailsFooter tooltip" id="detailsFooter">
             <input id="hl7Search" class="hl7Search" />
             <button type=button {{action 'findElements'}}>Find</button>
+            <span class="tooltiptext">Find and highlight elements in the message by id (e.g. MSH-10) or by value</span>
         </div>
     </div>
 </div>
