@@ -31,7 +31,7 @@ export default Component.extend({
             classDec = ` class="${className}"`;
         }
         if (data) {
-            dataDec = `data-hl7="${data}"`;
+            dataDec = ` data-hl7="${data}"`;
         }
         return `<span${classDec}${dataDec}>${text}</span>`;
     },
@@ -57,20 +57,22 @@ export default Component.extend({
         let sep = this.cs;
         let retVal = '';
         let classDec = 'component';
+        
         if (isSub) {
             sep = this.scs;
             classDec = 'subComponent';
         }
         let components = field.split(sep);
         for (let i = 0; i < components.length; ++i) {
+            let newDataDec = dataDec + '-' + (i + 1);
             if (i > 0) {
                 retVal += this.getSpan(sep, classDec + 'Sep sep');
             }
             if (!isSub && components[i].indexOf(this.scs) > -1) {
-                retVal += this.getComponents(components[i], dataDec + '-' + (i + 1), true);
+                retVal += this.getSpan(this.getComponents(components[i], newDataDec, true), classDec, newDataDec);
 
             } else {
-                retVal += this.getSpan(components[i], classDec, dataDec + '-' + (i + 1));
+                retVal += this.getSpan(components[i], classDec, newDataDec);
             }
 
         }
@@ -216,7 +218,7 @@ export default Component.extend({
         let fields = val.split(t.fs);
         for (let f = 1; f < fields.length; ++f) {
             if (segmentId === 'MSH' && f === 1) {
-                let fieldSpan = t.getSpan(t.fs, 'fieldSep', `MSH-1: ${t.fs}`);
+                let fieldSpan = t.getSpan(t.fs, 'fieldSep', 'MSH-1');
                 let componentSpan = t.getSpan(t.cs, 'componentSep');
                 let repetitionSpan = t.getSpan(t.rs, 'repetitionSep');
                 let escapeSpan = t.getSpan(t.ec, 'escapeChar');
@@ -225,7 +227,7 @@ export default Component.extend({
                 if (t.tc) {
                     truncSpan = t.getSpan(t.tc, 'truncationChar');
                 }
-                let encSpan = t.getSpan(`${componentSpan}${repetitionSpan}${escapeSpan}${scsSpan}${truncSpan}`, null, 'MSH-2: Encoding Chars');
+                let encSpan = t.getSpan(`${componentSpan}${repetitionSpan}${escapeSpan}${scsSpan}${truncSpan}`, null, 'MSH-2');
                 htmlOutput += t.getSpan(`${fieldSpan}${encSpan}`,
                     'encodingChars');
             } else {
@@ -358,6 +360,9 @@ export default Component.extend({
                 }
                 if (node.dataset.hl7) {
                     let hintText = `${node.dataset.hl7}: ${node.innerText}`;
+                    document.getElementById('hl7Footer').innerText = hintText;
+                } else if (node.parentNode.dataset.hl7) {
+                    let hintText = `${node.parentNode.dataset.hl7}: ${node.parentNode.innerText}`;
                     document.getElementById('hl7Footer').innerText = hintText;
                 } else {
                     document.getElementById('hl7Footer').innerText = '';
