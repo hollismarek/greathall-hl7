@@ -199,10 +199,6 @@ span.input::selection {
     z-index: 101;
 }
 
-.replaceModal .modalHeader {
-    cursor: move;
-}
-
 .documentationModal {    
     width:30%;
     top: 50px;
@@ -230,6 +226,7 @@ span.input::selection {
     border-radius: 3px; 
 }
 .modalHeader {
+    cursor: move;
     border: 1px solid gray;
     padding: 0.25em;
     border-right: 0;
@@ -251,6 +248,7 @@ span.input::selection {
 
 .modalFooter > button {
     margin-left: 5px;
+    padding: 1px 3px;
 }
 
 .helpWrapper {
