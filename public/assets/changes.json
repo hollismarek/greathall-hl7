@@ -1,0 +1,65 @@
+[
+    {
+        "date": "9/1/2018",
+        "changes": [
+            "Moved changelog and documentation into external files"
+        ]
+    },
+    {
+        "date": "8/24/2018",
+        "changes": [
+            "Cleaned up the button styling just a little"
+        ]
+    },
+    {
+        "date": "8/23/2018",
+        "changes": [
+            "Added an index route",
+            "Fixed some style issues on Firefox"
+        ]
+    },
+    {
+        "date": "8/22/2018",
+        "changes": [
+            "Added a favicon",
+            "Fixed some bugs around the encoding chars"
+        ]
+    },
+    {
+        "date": "8/19/2018",
+        "changes": [
+            "Updated tooltips",
+            "Updated search to find text within the message in addition to HL7 element ids"
+        ]
+    },
+    {
+        "date": "8/17/2018",
+        "changes": [
+            "Replaced confirm dialog on stopping search with a css based dialog",
+            "Added a few more tooltips"
+        ]
+    },
+    {
+        "date": "8/16/2018",
+        "changes": [
+            "Made modals draggable"
+        ]
+    },
+    {
+        "date": "8/14/2018",
+        "changes": [
+            "Tweaked padding of detail section to line up the bottom with the message view",
+            "Replaced message tooltip with documentation"
+        ]
+    },
+    {
+        "date": "8/12/2018",
+        "changes": [
+            "Replaced initial documentation with a change log",
+            "Added tooltips. The main tooltip for the message view will fade out and then get out of the way",
+            "Updated text of load button to be less verbose",
+            "Changed font of the word wrap label to match inputs",
+            "Fixed a bug with escaping HTML characters when running Replace All"
+        ]
+    }
+]

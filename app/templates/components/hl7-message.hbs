@@ -7,56 +7,8 @@
             <div id="hl7Message" class="hl7Message">
                 <span class="widetooltiptext" id="messageTooltip">HL7 Messages or Errors will display here</span>
                 <h2>Change Log</h2>                
-                <ul>       
-                    <li>8/24/2018</li>
-                    <ul>
-                        <li>Cleaned up the button styling just a little</li>
-                    </ul>
-                    <li>8/23/2018</li>             
-                    <ul>
-                        <li>Added an index route</li>
-                        <li>Fixed some style issues on Firefox</li>
-                    </ul>
-                    <li>8/22/2018</li>
-                    <ul>
-                        <li>Added a favicon</li>
-                        <li>Fixed some bugs around the encoding chars</li>
-                    </ul>
-                    <li>8/19/2018</li>
-                    <ul>
-                        <li>Updated tooltips</li>
-                        <li>Updated search to find text within the message in addition to HL7 element ids</li>
-                    </ul>
-                    <li>8/17/2018</li>
-                    <ul>
-                        <li>Replaced confirm dialog on stopping search with a css based dialog</li>
-                        <li>Added a few more tooltips</li>
-                    </ul>
-                    <li>8/16/2018</li>
-                    <ul>
-                        <li>Made modals draggable</li>
-                    </ul>
-                    <li>8/14/2018</li>
-                    <ul>
-                        <li>Tweaked padding of detail section to line up the bottom with the message view</li>
-                        <li>Replaced message tooltip with documentation</li>
-                    </ul>
-                    <li>8/12/2018</li>
-                    <ul>
-                        <li>Replaced initial documentation with a change log</li>
-                        <li>Added tooltips. The main tooltip for the message view will fade out and then get out of the way
-                        </li>
-                        <li>Updated text of load button to be less verbose</li>
-                        <li>Changed font of the word wrap label to match inputs</li>
-                        <li>Fixed a bug with escaping HTML characters when running Replace All</li>
-                    </ul>
-                    <li>Planned Changes</li>
-                    <ul>                        
-                        <li>Move change log and documentation to separate files</li>
-                        <li>Add more tooltips</li>                        
-                        <li>Add more details to the deatils section</li>
-                        <li>Continue documenting the functionality</li>                        
-                    </ul>
+                <ul id="changeLog">                                
+                   
                 </ul>
             </div>
         </div>
@@ -76,7 +28,7 @@
         </div>
     </div>
     <div class="details">
-        <div>            
+        <div>
             <div class="hl7Details" id="hl7Details">
                 <div id="fromMessage"></div>
                 <div id="results"></div>
@@ -133,25 +85,8 @@
         <h3>Great Hall HL7 Documentation</h3>
         <button id="closeButton" type="button" class="closeButton"><span>X</span></button>
     </div>
-    <div class="modalBody">
-        <p>
-            This app was designed to help visualize and edit an HL7 message. To get started click the &apos;Load&apos; button below to
-            choose a message file from disk. The app will analyze the message and display it in the Message Display section.
-        </p>
-        <p>
-            The Detail Display section will show information that you might find useful about your message. Enter in a value to search
-            the message in the find section below.
-        </p>
-        <p>
-            <strong>Message Display</strong>: Once a message is loaded it will be displayed here in a color coded format. You can
-            hover over any element to get a little detail about it, or click any element to edit it.
-        </p>
-        <p>
-            If you edit an encoding character in MSH-1 or MSH-2 that change will automatically propogate through the message
-        </p>
-        <p>
-            If the field you edit matches any other text in the message you will be prompted to replace the text elsewhere.
-        </p>
+    <div id="docText" class="modalBody">
+       
     </div>
 </div>
 
@@ -166,54 +101,11 @@
     document.getElementById('closeButton').onclick = function (e) {
         document.getElementById('documentationModal').style.display = 'none';
     }
-
     let dragReplace = new draggableObject(document.getElementById('replaceHeader'));
     dragReplace.makeDraggable();
     let dragDoc = new draggableObject(document.getElementById('documentationHeader'));
     dragDoc.makeDraggable();
     let dragCancel = new draggableObject(document.getElementById('cancelHeader'));
     dragCancel.makeDraggable();
+    
 </script>
-
-<!--
-    /*let node = document.getElementById('hl7Message');
-    let timeout;
-    let opinterval;
-
-    node.onmousemove = function (e) {
-        let tooltip = document.getElementById('messageTooltip');
-        if (tooltip.parentNode.id === 'tooltipWrapper') {
-            if (tooltip) {
-                tooltip.style.top = `${e.clientY + 20}px`;
-                tooltip.style.left = `${e.clientX + 20}px`;
-            }
-        }
-    }
-    node.onmouseenter = function (e) {        
-        let tooltip = document.getElementById('messageTooltip');
-        if (tooltip.parentElement.id !== 'tooltipWrapper') {
-            tooltip.style.opacity = 1;
-            document.getElementById('tooltipWrapper').appendChild(tooltip);
-            opinterval = setInterval(() => {
-                if (tooltip.style.opacity > 0.25) {
-                    tooltip.style.opacity -= 0.1;
-                }
-            }, 750);
-
-            timeout = setTimeout(removeTooltip, 20000);
-        }
-    }
-
-    node.onmouseleave = function (e) {
-        clearTimeout(timeout);
-        removeTooltip();
-    }
-
-    function removeTooltip() {
-        let tooltip = document.getElementById('messageTooltip');
-        if (tooltip.parentElement.id === 'tooltipWrapper') {
-            document.getElementById('holding').appendChild(tooltip);
-        }
-        clearInterval(opinterval);
-    }/*
-    -->

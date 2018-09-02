@@ -57,7 +57,7 @@ export default Component.extend({
         let sep = this.cs;
         let retVal = '';
         let classDec = 'component';
-        
+
         if (isSub) {
             sep = this.scs;
             classDec = 'subComponent';
@@ -571,5 +571,25 @@ export default Component.extend({
             let modalNode = document.getElementById('replaceModal');
             modalNode.style.display = 'inline-block';
         }
+    },
+    init: function() {
+        this._super();
+        
+        Ember.$.getJSON("/assets/changes.json", (data) => {        
+            let changeList = document.getElementById('changeLog'); 
+            let changeHtml = ''                       ;
+            for (let i = 0; i < data.length; ++i) {
+                let dateItem = `<li>${data[i].date}</li>`;
+                let listElements = '';
+                for (let j = 0; j < data[i].changes.length; ++j) {
+                    listElements += `<li>${data[i].changes[j]}</li>`;
+                }
+                changeHtml += `${dateItem}<ul>${listElements}</ul>`;
+            }
+            changeList.innerHTML = changeHtml;
+        });
+        Ember.$.get("/assets/documentation.html", (data) => {
+            document.getElementById('docText').innerHTML = data;
+        });
     }
 });
