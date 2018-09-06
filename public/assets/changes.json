@@ -1,5 +1,13 @@
 [
     {
+        "date": "9/6/2018",
+        "changes": [
+            "Moved list of fields to show on loading a message to a separate file and added more fields",
+            "Wrote a little more documentation",
+            "Fixed a bug that prevented a warning when overwriting the message"
+        ]
+    },
+    {
         "date": "9/1/2018",
         "changes": [
             "Moved changelog and documentation into external files"

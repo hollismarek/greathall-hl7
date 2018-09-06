@@ -321,12 +321,7 @@ export default Component.extend({
         _this = this;
         let htmlOutput = '<main class="hl7MessageDisplay" id="hl7MessageDisplay">';
 
-        if (msg.substring(0, 3) === 'MSH' || msg.substring(0, 3) === 'FHS') {
-            if (this.loaded) {
-                if (!confirm('The Current Message will be overwritten, continue?')) {
-                    return;
-                }
-            }
+        if (msg.substring(0, 3) === 'MSH' || msg.substring(0, 3) === 'FHS') {            
             this.hl7Element.innerHTML = this.getSpan('loading message...', 'loading');
             this.loaded = true;
             this.fs = msg.charAt(3);
@@ -373,10 +368,19 @@ export default Component.extend({
             });
             this.hl7Element.addEventListener('click', this.handleClick);
             if (!noSearch) {
-                let responses = this.search('PID-5', this.hl7Element, true).map((val) => {
-                    return `Patient Name: ${val}`;
+                // let responses = this.search('PID-5', this.hl7Element, true).map((val) => {
+                //     return `Patient Name: ${val}`;
+                // });
+                // this.setDetailNode(responses, 'Message Info', document.getElementById('fromMessage'));
+                Ember.$.getJSON('assets/details.json', (data) => {
+                    let responses = [];
+                    for (let i = 0; i< data.length; ++i) {
+                        responses = responses.concat(this.search(data[i].field, this.hl7Element, true).map((val =>{
+                            return `${data[i].label}: ${val}`;
+                        })));
+                        this.setDetailNode(responses, 'Message Info', document.getElementById('fromMessage'));
+                    }
                 });
-                this.setDetailNode(responses, 'Message Info', document.getElementById('fromMessage'));
             }
         } else {
             this.hl7Element.innerHTML = `<div class="error">${this.getSpan('Not a valid hl7 message: missing MSH segment')}</div>`;
@@ -450,6 +454,7 @@ export default Component.extend({
                 foundNodes[i].innerHTML = output;
             }
         }
+        this.loaded = true;
         return responses;
     },
     setDetailNode: function (responses, header, detailNode) {
@@ -476,6 +481,11 @@ export default Component.extend({
             document.body.removeChild(deleteMe);
         },
         loadMessage: function () {
+            if (this.loaded) {
+                if (!confirm('The Current Message will be overwritten, continue?')) {
+                    return;
+                }
+            }
             this.hl7Element = document.getElementById('hl7Message');
 
             let deleteMe = document.createElement('input');

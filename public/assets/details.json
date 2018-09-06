@@ -1,0 +1,18 @@
+[
+    {
+        "field": "MSH-10",
+        "label": "Message Control ID"
+    },
+    {
+        "field": "PID-5",
+        "label": "Patient Name: "
+    },
+    {
+        "field": "PID-7",
+        "label": "DOB"
+    },
+    {
+        "field": "PID-8",
+        "label": "Gender"
+    }
+]
